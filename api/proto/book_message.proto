@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package book.pb;
+
+option go_package = ".;pb";
+
+message BookRequest {
+  string name = 1;
+  int32 price = 2;
+  string publicDate = 3;
+  int32 authorId = 4;
+}
+
+message BookResponse {
+  int32 id = 1;
+}

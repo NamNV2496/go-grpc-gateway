@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package book.pb;
+
+import "google/api/annotations.proto";
+import "book_message.proto";
+import "author_message.proto";
+import "image_message.proto";
+
+option go_package = ".;pb";
+
+
+service BookService {
+  rpc CreateNewAuthor(AuthorRequest) returns (AuthorResponse) {
+    option (google.api.http) = {
+      post : "/v1/book/author"
+      body : "*"
+    };
+  };
+
+  rpc CreateNewBook(BookRequest) returns (BookResponse) {
+    option (google.api.http) = {
+      post : "/v1/book/book"
+      body : "*"
+    };
+  };
+
+  rpc UploadImage(stream UploadImageRequest) returns (UploadImageResponse) {
+    option (google.api.http) = {
+      post : "/v1/book/book-image"
+      body : "*"
+    };
+  };
+
+  rpc SearchBook(BookRequest) returns (stream BookResponse) {
+    option (google.api.http) = {
+      get : "/v1/book/book"
+    };
+  };
+}

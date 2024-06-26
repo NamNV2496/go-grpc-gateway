@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package book.pb;
+
+option go_package = ".;pb";
+
+message UploadImageRequest {
+  oneof data {
+    ImageInfo info = 1;
+    bytes chunk_data = 2;
+  };
+}
+
+message ImageInfo {
+  string image_type = 1;
+  string name = 2;
+}
+
+message UploadImageResponse {
+  string message = 1;
+  uint32 size = 2;
+}

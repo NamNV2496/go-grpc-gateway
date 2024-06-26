@@ -1,0 +1,119 @@
+{
+	"info": {
+		"_postman_id": "282a25ea-a1b4-4975-8e4b-b900c364e904",
+		"name": "go-grpc-nginx",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"user1\",\r\n    \"password\": \"secret\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/v1/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2. create new author",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTkyODc1NzIsInVzZXJuYW1lIjoidXNlcjEiLCJyb2xlIjoiYWRtaW4ifQ._q6dCMly2xU6mNQPSqI3C2_G_tiZa3_tD2bgcaqZRuk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"sóng ở đáy sông\",\r\n    \"age\": 53,\r\n    \"experience\": \"3 years\",\r\n    \"opinion\": \"Free\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/v1/book/author",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"book",
+						"author"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3. create new book",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTkyODc1NzIsInVzZXJuYW1lIjoidXNlcjEiLCJyb2xlIjoiYWRtaW4ifQ._q6dCMly2xU6mNQPSqI3C2_G_tiZa3_tD2bgcaqZRuk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"sóng ở đáy sông\",\r\n    \"price\": 10000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/v1/book/book",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"book",
+						"book"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

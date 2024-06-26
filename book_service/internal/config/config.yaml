@@ -1,0 +1,8 @@
+book_server:
+  address: 0.0.0.0:5601
+DB:
+  host: "127.0.0.1"
+  port: 3309
+  username: root
+  password: root
+  name: grpc

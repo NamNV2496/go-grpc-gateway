@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package book.pb;
+
+option go_package = ".;pb";
+
+message AuthorRequest {
+  string name = 1;
+  int32 age = 2;
+  int32 experience = 3;
+  string opinion = 4;
+  enum Sex {
+    UNKNOWN = 0;
+    MALE = 1;
+    FEMALE = 2;
+  }
+}
+
+message AuthorResponse {
+  int32 id = 1;
+}
