@@ -36,7 +36,7 @@ func (auth *AuthServer) Login(ctx context.Context, req *pb.LoginRequest) (*pb.Lo
 	if err != nil {
 		return nil, err
 	}
-	if &user == nil || !auth.jwtManager.IsCorrectPassword(req.Password, user.HashedPassword) {
+	if !auth.jwtManager.IsCorrectPassword(req.Password, user.HashedPassword) {
 		return nil, status.Errorf(codes.NotFound, "Cannot find username/password")
 	}
 	token, err := auth.jwtManager.Generate(&user)

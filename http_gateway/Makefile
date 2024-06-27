@@ -21,3 +21,5 @@ server-tls-nginx2:
 
 cert:
 	cd cert; ./gen.sh; cd ..
+lint:
+	golangci-lint run

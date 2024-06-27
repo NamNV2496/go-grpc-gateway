@@ -16,9 +16,13 @@ import (
 func main() {
 	config.InitReadConfig()
 	database.DBConnect()
-	database.GetDB().AutoMigrate(&domain.Book{})
-	database.GetDB().AutoMigrate(&domain.Author{})
 
+	if err := database.GetDB().AutoMigrate(&domain.Book{}); err != nil {
+		log.Fatalf("Failed to migrate book table in database")
+	}
+	if err := database.GetDB().AutoMigrate(&domain.Author{}); err != nil {
+		log.Fatalf("Failed to migrate author table in database")
+	}
 	if err := runGrpcServer(); err != nil {
 		log.Fatalf("Failed to start grpc server")
 	}

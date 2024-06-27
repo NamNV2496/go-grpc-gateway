@@ -124,7 +124,7 @@ func (bs *BookServer) UploadImage(stream pb.BookService_UploadImageServer) error
 		time.Sleep(time.Second * 5)
 
 		// _, err = imageData.Write(chunk)
-		os.WriteFile("./internal/handler/tmp/"+imageName, chunk, 0664)
+		err = os.WriteFile("./internal/handler/tmp/"+imageName, chunk, 0664)
 		if err != nil {
 			return logError(status.Errorf(codes.Internal, "cannot write chunk data: %v", err))
 		}

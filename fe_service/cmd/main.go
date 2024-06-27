@@ -18,6 +18,7 @@ import (
 	"github.com/namnv2496/fe_service/internal/logic/client"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 func main() {
@@ -50,7 +51,7 @@ func runGrpcClient() error {
 	flag.Parse()
 
 	authEndpoint := config.ReadConfig(config.Server).(config.ServerConfig).Address
-	transportOption := grpc.WithInsecure()
+	transportOption := grpc.WithTransportCredentials(insecure.NewCredentials())
 	if *enableTLS {
 		tlsCredentials, err := loadTLSCredentials()
 		if err != nil {
@@ -67,7 +68,7 @@ func runGrpcClient() error {
 	log.Println("address: ", address)
 	// demo of login
 	// Creat first connection to get token from http_gateway service
-	cc1, err := grpc.Dial(address, transportOption)
+	cc1, err := grpc.NewClient(address, transportOption)
 	if err != nil {
 		log.Fatal("cannot dial server: ", err)
 	}
@@ -79,24 +80,27 @@ func runGrpcClient() error {
 	}
 
 	// main connection for requesting to http_gateway service
-	_, err = grpc.Dial(
+	_, err = grpc.NewClient(
 		address,
 		transportOption,
 		grpc.WithUnaryInterceptor(interceptor.Unary()),
 		grpc.WithStreamInterceptor(interceptor.Stream()),
 	)
 	if err != nil {
-		log.Fatal("cannot dial server: ", err)
+		log.Fatalln("cannot dial server: ", err)
 	}
 
 	// connect to book_server
 	bookEndpoint := config.ReadConfig(config.Book).(config.ServerConfig).Address
-	bookConn, err := grpc.Dial(
+	bookConn, err := grpc.NewClient(
 		bookEndpoint,
 		transportOption,
 		grpc.WithUnaryInterceptor(interceptor.Unary()),
 		grpc.WithStreamInterceptor(interceptor.Stream()),
 	)
+	if err != nil {
+		log.Fatalln("cannot connect to book server: ", err)
+	}
 	grpcClient := pb.NewBookServiceClient(bookConn)
 
 	// testcases

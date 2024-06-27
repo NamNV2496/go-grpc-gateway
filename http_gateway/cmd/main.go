@@ -20,6 +20,7 @@ import (
 	"github.com/namnv2496/http_gateway/internal/logic/auth"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 var (
@@ -29,11 +30,13 @@ var (
 
 func InitDatabase() {
 	database.DBConnect()
-	database.GetDB().AutoMigrate(&domain.User{})
+	if err := database.GetDB().AutoMigrate(&domain.User{}); err != nil {
+		log.Fatalln("Failed to migrate database")
+	}
 }
 
 func accessibleRoles() map[string][]string {
-	const authServicePath = "/user.pb.AuthService/"
+	// const authServicePath = "/user.pb.AuthService/"
 
 	return map[string][]string{
 		// authServicePath + "test": {"admin"},
@@ -105,7 +108,7 @@ func runRESTServer(serverPort int) error {
 	httpEndpoint := config.ReadConfig(config.Server).(config.ServerConfig).Address
 	bookEndpoint := config.ReadConfig(config.Book).(config.ServerConfig).Address
 	mux := runtime.NewServeMux()
-	dialOptions := []grpc.DialOption{grpc.WithInsecure()}
+	dialOptions := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
@@ -119,7 +122,7 @@ func runRESTServer(serverPort int) error {
 		return err
 	}
 
-	log.Printf("Start REST server at port %s", serverPort)
+	log.Println("Start REST server at port: ", serverPort)
 	address := fmt.Sprintf("0.0.0.0:%d", serverPort)
 	if err := http.ListenAndServe(address, mux); err != nil {
 		log.Fatalf("Failed to serve: %v", err)

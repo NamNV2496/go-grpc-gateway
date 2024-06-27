@@ -1,4 +1,7 @@
-# Grpc
+# Grpc gateway demo
+
+![alt text](docs/flow.png)
+
 # Technologies
 
     1. grpc - "google.golang.org/grpc"
@@ -6,7 +9,6 @@
     3. grom - "gorm.io/gorm"
     4. jwt - "github.com/golang-jwt/jwt"
 
-![alt text](docs/flow.png)
 
 # 1. REST server
 
@@ -25,6 +27,7 @@
     2. in another terminal `cd book_service` and run `make server` to run book server in grpc server
     3. in another terminal `cd fe_service` and run `make client-tls` to run grpc client
 
+<details>
 # 4. Nginx (It is not working now)
 
 1. windows: [https://nginx.org/en/download.html](https://nginx.org/en/download.html)
@@ -45,3 +48,4 @@ netstat -an | find "8080"
 # Output should indicate that NGINX is listening on port 8080, for example:
 # TCP    0.0.0.0:8080           0.0.0.0:0              LISTENING
 ```
+</details>
